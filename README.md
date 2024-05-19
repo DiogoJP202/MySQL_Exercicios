@@ -166,3 +166,71 @@ Elaine Nunes|2.00
 Ana Carolina Hernandes|2.08
 Leila Martins|2.15
 ---
+## Uma lista com as profissões dos gafanhotos e seus respectivos quantitativos.
+### código:
+```mysql
+select profissao, count(*) from gafanhotos
+group by profissao
+order by count(*);
+```
+### Retorno:
+profissao|count(*)
+---|---|
+Farmacêutico|2
+Médico|3
+Ator|6
+Professor|7
+Empreendedor|7
+Dentista|7
+Auxiliar Administrat|13
+Programador|16
+---
+## Quantos gafanhotos homens e quantas mulheres nasceram após 01/Jan/2005?
+### código:
+```mysql
+select sexo, count(*) from gafanhotos
+where nascimento > 2005-01-01
+group by sexo
+order by count(*);
+```
+### Retorno:
+sexo|count(*)
+---|---
+F|22
+M|39
+---
+## Uma lista com os gafanhotos que nasceram fora do Brasil, mostrando o país de origem e o total de pessoas nascidas lá. Só nos interessam os países que tiverem mais de 3 gafanhos com essa nacionalidade.
+### código:
+```mysql
+select nacionalidade, count(*) from gafanhotos
+where nacionalidade != "brasil"
+group by nacionalidade 
+having count(*) > 3;
+```
+### Retorno:
+nacionalidade|count(*)
+---|---
+Angola|4
+Canadá|4
+EUA|8
+Portugal|8
+---
+## Uma lista agrupada pela altura dos gafanhotos, mostrando quantas pessoas pesam mais de 100kg e que estão acima da média de altura de todos os cadastrados.
+### código:
+```mysql
+select altura, peso from gafanhotos
+where peso > 100
+group by altura
+having altura > (select avg(altura) from gafanhotos)
+order by altura;
+```
+### Retorno:
+altura|peso
+---|---
+1.76|110.10
+1.87|110.12
+1.97|132.70
+1.99|101.30
+2.19|105.10
+2.22|120.10
+2.35|150.30
